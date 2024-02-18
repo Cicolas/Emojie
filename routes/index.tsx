@@ -1,12 +1,16 @@
 import { useSignal } from "@preact/signals";
 import EmojiInput from "../islands/EmojiInput.tsx"
 import EmojiTab from "../islands/EmojiTab.tsx";
+import EmojiListing from "../islands/EmojiListing.tsx";
 
 export default function Home() {
-  const text = useSignal("");
+  const emojiTabOpen = useSignal(false);
 
   return (<div class="relative w-screen h-screen overflow-hidden">
-    <EmojiTab></EmojiTab>
+    <EmojiTab>
+      <EmojiListing></EmojiListing>
+    </EmojiTab>
+
     <div class="grid grid-rows-3 justify-center items-center w-full h-full">
       <div class="flex flex-col justify-center items-center mt-auto">
         <img

@@ -33,8 +33,9 @@
     "emoji-regex": "npm:emoji-regex@10.3.0",
     "emoji-regex/": "npm:emoji-regex@10.3.0/",
     "lodash": "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js",
-    "react-icons/md": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/mod.ts", 
-    "react-icons/md/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/ico/"
+    "react-icons/md": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/mod.ts",
+    "react-icons/md/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/ico/",
+    "if-emoji": "npm:if-emoji"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
