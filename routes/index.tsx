@@ -5,11 +5,11 @@ import EmojiTab from "../islands/EmojiTab.tsx";
 export default function Home() {
   const text = useSignal("");
 
-  return (<>
+  return (<div class="relative w-screen h-screen overflow-hidden">
     <EmojiTab></EmojiTab>
-    <div class="grid grid-rows-3 justify-center items-center min-w-screen min-h-screen overflow-hidden">
+    <div class="grid grid-rows-3 justify-center items-center w-full h-full">
       <div class="flex flex-col justify-center items-center mt-auto">
-        <img 
+        <img
           class="w-[30rem]"
           src="/logo.png"
         ></img>
@@ -17,5 +17,5 @@ export default function Home() {
       </div>
       <EmojiInput></EmojiInput>
     </div>
-  </>);
+  </div>);
 }

@@ -3,7 +3,7 @@ import MdKeyboardDoubleArrowLeft from "react-icons/md/MdKeyboardDoubleArrowLeft.
 
 export default function EmojiTab() {
     const [open, setOpen] = useState(false);
-    
+
     return <>
         <div class="flex flex-row-reverse justify-start items-start absolute top-0 right-0 h-full">
             <div class={`
@@ -15,13 +15,13 @@ export default function EmojiTab() {
             `}>
                 adsds
             </div>
-            <button 
+            <button
                 class={`mt-2 text-gray-400 font-medium text-4xl cursor-pointer ${open?"rotate-180":""} duration-200`}
                 onClick={() => {setOpen(!open)}}
             >
                 <MdKeyboardDoubleArrowLeft />
             </button>
-            <img src="emoji.png" class={`pt-4 -mr-4 rotate-12 pointer-events-none ${open?"opacity-0":""} duration-200`} aria-hidden/>
+            <img src="emoji.png" class={`pt-4 -mr-4 rotate-[15deg] pointer-events-none ${open?"opacity-0":""} duration-200`} aria-hidden/>
         </div>
     </>
 }
