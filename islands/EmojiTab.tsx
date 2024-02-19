@@ -7,7 +7,7 @@ interface EmojiTabProps {
 }
 
 export default function EmojiTab({ children }: EmojiTabProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <>

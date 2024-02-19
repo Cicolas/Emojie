@@ -4,11 +4,11 @@ import EmojiTab from "../islands/EmojiTab.tsx";
 import EmojiListing from "../islands/EmojiListing.tsx";
 
 export default function Home() {
-  const emojiTabOpen = useSignal(false);
+  const emojiStr = useSignal("");
 
   return (<div class="relative w-screen h-screen overflow-hidden">
     <EmojiTab>
-      <EmojiListing></EmojiListing>
+      <EmojiListing emojiStr={emojiStr}></EmojiListing>
     </EmojiTab>
 
     <div class="grid grid-rows-3 justify-center items-center w-full h-full">
@@ -19,7 +19,7 @@ export default function Home() {
         ></img>
         <span>"It's pronounced <span class="italic">emoooji</span> 🐄!"</span>
       </div>
-      <EmojiInput></EmojiInput>
+      <EmojiInput emojiStr={emojiStr}></EmojiInput>
     </div>
   </div>);
 }

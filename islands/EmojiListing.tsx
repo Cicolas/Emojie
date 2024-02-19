@@ -3,6 +3,7 @@ import emojiJSON from "../shared/emojis.json" with { type: "json" };
 import { Emoji } from "../shared/types/emoji.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import ifEmoji from 'if-emoji'
+import { Signal } from "@preact/signals";
 
 type CategoriesType =
   'food drink'      |
@@ -36,22 +37,38 @@ const emojiListCache = emojiJSON.map(
   }
 )
 
+const emojiCategoryList: {name: CategoriesType, emoji: string}[] = [
+  { name: "smileys emotion",  emoji: "😃"},
+  { name: "people body",      emoji: "🤙"},
+  { name: "animals nature",   emoji: "🐈"},
+  { name: "food drink",       emoji: "🍕"},
+  { name: "travel places",    emoji: "🌍"},
+  { name: "activities",       emoji: "🎈"},
+  { name: "objects",          emoji: "📦"},
+  { name: "symbols",          emoji: "🆗"},
+  { name: "flags",            emoji: "🏁"},
+]
+
 interface EmojiCardProps {
   emoji: string,
-  name: string
+  name: string,
+  inputEmoji: (emoji: string) => void;
 }
 
-function EmojiCard({emoji, name}: EmojiCardProps) {
-  return <div class="
+function EmojiCard({emoji, name, inputEmoji}: EmojiCardProps) {
+  return <button class="
       flex justify-center items-center
       w-12 h-12
       border-2 rounded-md border-gray-400
       text-2xl
       bg-white hover:bg-gray-300 duration-200
       cursor-pointer
-    ">
+    "
+    name={name}
+    onClick={ inputEmoji.bind({}, emoji) }
+  >
     {emoji}
-  </div>
+  </button>
 }
 
 interface EmojiCategoryProps {
@@ -70,18 +87,16 @@ function EmojiCategory({emoji, category, categorySelected, onSelect}: EmojiCateg
   </span>
 }
 
-export default function EmojiListing() {
+interface EmojiListingProps {
+  emojiStr: Signal<string>;
+}
+
+export default function EmojiListing({ emojiStr }: EmojiListingProps) {
   if (!IS_BROWSER) return <></>;
 
-  const [emojiList, setEmojiList] = useState<Emoji[]>([]);
+  const [emojiList, setEmojiList] = useState<Emoji[]>(emojiListCache);
   const [filter, setFilter] = useState<string>("");
   const [category, setCategory] = useState<CategoriesType>("");
-
-  useEffect(() => {
-    setEmojiList(
-      getEmoji("", "")
-    );
-  }, [])
 
   function updateFilter(ev: Event) {
     const target = ev.target as HTMLInputElement;
@@ -103,6 +118,10 @@ export default function EmojiListing() {
     setCategory(newCategoryValue);
   }
 
+  function inputEmoji(emoji: string) {
+    emojiStr.value = emojiStr.value.concat(emoji);
+  }
+
   return <>
     <input
       type="text"
@@ -118,36 +137,14 @@ export default function EmojiListing() {
       onInput={ updateFilter }
     />
     <div class="w-full flex gap-2 select-none">
-      <EmojiCategory
-        emoji="😃" onSelect={updateCategory} categorySelected={category} category="smileys emotion"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🤙" onSelect={updateCategory} categorySelected={category} category="people body"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🐈" onSelect={updateCategory} categorySelected={category} category="animals nature"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🍕" onSelect={updateCategory} categorySelected={category} category="food drink"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🌍" onSelect={updateCategory} categorySelected={category} category="travel places"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🎈" onSelect={updateCategory} categorySelected={category} category="activities"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="📦" onSelect={updateCategory} categorySelected={category} category="objects"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🆗" onSelect={updateCategory} categorySelected={category} category="symbols"
-      ></EmojiCategory>
-      <EmojiCategory
-        emoji="🏁" onSelect={updateCategory} categorySelected={category} category="flags"
-      ></EmojiCategory>
+      {
+        emojiCategoryList.map(({emoji, name}) => <EmojiCategory
+          emoji={emoji} onSelect={updateCategory} categorySelected={category} category={name}
+        ></EmojiCategory>)
+      }
     </div>
     <div class="w-full h-full py-4 grid grid-cols-6 gap-4 auto-rows-min select-none">
-      {emojiList.map(obj => <EmojiCard {...obj}/>)}
+      {emojiList.map(obj => <EmojiCard {...obj} inputEmoji={inputEmoji}/>)}
     </div>
   </>
 }
