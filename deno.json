@@ -35,7 +35,9 @@
     "lodash": "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js",
     "react-icons/md": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/mod.ts",
     "react-icons/md/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/ico/",
-    "if-emoji": "npm:if-emoji"
+    "if-emoji": "npm:if-emoji",
+    "openai": "https://deno.land/x/openai@v4.28.0/mod.ts",
+    "openai/": "https://deno.land/x/openai@v4.28.0/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

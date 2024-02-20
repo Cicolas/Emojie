@@ -11,7 +11,7 @@ export default function EmojiTab({ children }: EmojiTabProps) {
 
   return (
     <>
-      <div class="flex flex-row-reverse justify-start items-start absolute top-0 right-0 h-full">
+      <div class="flex flex-row-reverse justify-start items-start absolute top-0 right-0 h-full z-50">
         <div
           class={`
               w-96 h-full p-2 pt-4 ml-2
