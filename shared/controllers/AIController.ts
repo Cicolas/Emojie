@@ -1,7 +1,5 @@
-import { Thread } from "openai/resources/beta/threads/threads.ts";
 import OpenAI from "openai";
-import { Assistant } from "openai/resources/beta/assistants/assistants.ts";
-import { MessageContentText } from "openai/resources/beta/threads/messages/messages.ts";
+import { pollingMessage } from "../functions/pollingMessage.ts";
 
 const MAX_TRIES = 5;
 const AI_INSTRUCTION =
@@ -17,48 +15,38 @@ assistant: Kung Fu Panda`;
 
 export class AIController {
   private openai!: OpenAI;
-  private assistant?: Assistant;
+  private assistantId?: string;
 
   public constructor() {
     this.openai = new OpenAI();
   }
 
   public async createAssistant() {
-    this.assistant = await this.openai.beta.assistants.create({
+    const assistant = await this.openai.beta.assistants.create({
       instructions: AI_INSTRUCTION,
       name: "Emojie Game Master",
       model: "gpt-3.5-turbo-0125",
     });
 
-    console.log(`INFO: Assistant Created (id: "${this.assistant.id}")!`);
+    this.assistantId = assistant.id;
+
+    console.log(`INFO: Assistant Created (id: "${this.assistantId}")!`);
   }
 
-  public async loadAssistant(assistantId: string) {
-    if (!assistantId) throw new Error("Invalid Assistant ID (maybe the assistant does not exist try creating one with \"createAssitant\" method)");
-
-    this.assistant = {
-      id: assistantId,
-      created_at: 0,
-      description: "",
-      file_ids: [],
-      instructions: "",
-      metadata: [],
-      name: "",
-      model: "",
-      object: "assistant",
-      tools: []
-    };
-    // this.assistant = await this.openai.beta.assistants.retrieve(assistantId);
-
-    console.log("INFO: Assistant Loaded!");
+  public setAssistant(assistantId: string) {
+    this.assistantId = assistantId;
   }
 
-  public async createThread() {
+  public async createThread(): Promise<string> {
+    // if (Deno.env.get("MOCK_API") === "false") {
+    //   return new Promise((resolve) => resolve("Mock API enabled! to get actual responses disable \"MOCK_API\""));
+    // }
+
     const thread = await this.openai.beta.threads.create();
 
     console.log(`INFO: Thread Created (id: "${thread.id}")!`);
 
-    return thread;
+    return thread.id;
   }
 
   public async getThread(threadId: string) {
@@ -79,48 +67,28 @@ export class AIController {
     );
   }
 
-  public async getResponse(threadId: string) {
-    if (!this.assistant) throw new Error("Invalid Assistant ID (maybe the assistant does not exist try creating one with \"createAssitant\" method)");
+  public async getResponse(threadId: string): Promise<string> {
+    // if (Deno.env.get("MOCK_API") === "false") {
+    //   return new Promise((resolve) => resolve("Mock API enabled! to get actual responses disable \"MOCK_API\""));
+    // }
+
+    if (!this.assistantId) throw new Error("Invalid Assistant ID (maybe the assistant does not exist try creating one with \"createAssitant\" method)");
 
     const run = await this.openai.beta.threads.runs.create(
       threadId,
       {
-        assistant_id: this.assistant.id,
+        assistant_id: this.assistantId,
       }
     );
 
-    let timesTried = 0;
-    const checkCompletion: () => Promise<string> = async () => {
-      const runOngoing = await this.openai.beta.threads.runs.retrieve(
-        threadId,
-        run.id
-      );
+    const runResult = await pollingMessage({
+      openai: this.openai,
+      interval: 1000,
+      maxTries: MAX_TRIES,
+      runId: run.id,
+      threadId
+    });
 
-      if (
-        runOngoing.status === "in_progress" ||
-        runOngoing.status === "queued" &&
-        timesTried < MAX_TRIES) {
-
-        timesTried++;
-        await timeout(1000);
-        return await checkCompletion();
-      } else if (runOngoing.status === "completed") {
-        const ts = await this.openai.beta.threads.messages.list(
-          threadId,
-          { limit: 1 }
-        );
-
-        return (ts.data[0].content as MessageContentText[])[0].text.value;
-      } else {
-        throw Error(`unknown status: "${runOngoing.status}" or times tried >= 5 (${timesTried})`);
-      }
-    }
-
-    const runResult = await checkCompletion();
     return runResult;
   }
-}
-
-function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
