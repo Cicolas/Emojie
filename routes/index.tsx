@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { effect, useSignal } from "@preact/signals";
 import EmojiInput from "../islands/EmojiInput.tsx"
 import EmojiTab from "../islands/EmojiTab.tsx";
 import EmojiListing from "../islands/EmojiListing.tsx";

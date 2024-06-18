@@ -2,6 +2,8 @@ import emojiRegex from 'emoji-regex';
 import * as _ from "lodash";
 import { Signal } from "@preact/signals";
 import { MdKeyboardReturn } from "react-icons/md";
+import { thread, getThread, sendMessage } from "../signals/ThreadSignal.ts";
+import { Handlers } from "$fresh/server.ts";
 
 interface EmojiInputProps {
   emojiStr: Signal<string>;
@@ -18,6 +20,13 @@ export default function EmojiInput({ emojiStr }: EmojiInputProps) {
 
     emojiStr.value = emojis;
     target.value = emojiStr.value;
+  }
+
+  async function handleInput() {
+    if (!thread.value) await getThread();
+
+    const message = await sendMessage(emojiStr.value);
+    console.log(message)
   }
 
   return <div class="
@@ -40,7 +49,7 @@ export default function EmojiInput({ emojiStr }: EmojiInputProps) {
       onInput={ (ev) => { validateEmojiInput(ev) } }
       value={ emojiStr.value }
     />
-    <button class="flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-full hover:bg-gray-300 duration-200">
+    <button onClick={handleInput} class="flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-full hover:bg-gray-300 duration-200">
       <MdKeyboardReturn></MdKeyboardReturn>
     </button>
   </div>

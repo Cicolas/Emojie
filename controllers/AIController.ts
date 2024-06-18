@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { pollingMessage } from "../functions/pollingMessage.ts";
+import { pollingMessage } from "../shared/functions/pollingMessage.ts";
 
 const MAX_TRIES = 5;
 const AI_INSTRUCTION =

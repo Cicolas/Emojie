@@ -1,4 +1,4 @@
-import { AIController } from "./controllers/AIController.ts"
+import { AIController } from "../controllers/AIController.ts"
 
 export const OpenAIController = new AIController();
 
