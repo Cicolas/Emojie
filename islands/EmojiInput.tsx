@@ -3,13 +3,13 @@ import * as _ from "lodash";
 import { Signal } from "@preact/signals";
 import { MdKeyboardReturn } from "react-icons/md";
 import { thread, getThread, sendMessage } from "../signals/ThreadSignal.ts";
-import { Handlers } from "$fresh/server.ts";
 
 interface EmojiInputProps {
   emojiStr: Signal<string>;
+  movieName: Signal<string | undefined>;
 }
 
-export default function EmojiInput({ emojiStr }: EmojiInputProps) {
+export default function EmojiInput({ emojiStr, movieName }: EmojiInputProps) {
   function validateEmojiInput(ev: Event) {
     const target = ev.target as HTMLInputElement;
 
@@ -26,7 +26,8 @@ export default function EmojiInput({ emojiStr }: EmojiInputProps) {
     if (!thread.value) await getThread();
 
     const message = await sendMessage(emojiStr.value);
-    console.log(message)
+
+    movieName.value = message;
   }
 
   return <div class="

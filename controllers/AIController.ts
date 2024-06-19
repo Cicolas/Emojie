@@ -22,6 +22,11 @@ export class AIController {
   }
 
   public async createAssistant() {
+    if (Deno.env.get("MOCK_API") === "true") {
+      console.log("Mock API enabled! to create an assistant disable \"MOCK_API\"");
+      return;
+    }
+
     const assistant = await this.openai.beta.assistants.create({
       instructions: AI_INSTRUCTION,
       name: "Emojie Game Master",
@@ -38,9 +43,9 @@ export class AIController {
   }
 
   public async createThread(): Promise<string> {
-    // if (Deno.env.get("MOCK_API") === "false") {
-    //   return new Promise((resolve) => resolve("Mock API enabled! to get actual responses disable \"MOCK_API\""));
-    // }
+    if (Deno.env.get("MOCK_API") === "true") {
+      return "Mock API enabled! to get actual responses disable \"MOCK_API\"";
+    }
 
     const thread = await this.openai.beta.threads.create();
 
@@ -58,6 +63,10 @@ export class AIController {
   }
 
   public async sendMessage(threadId: string, content: string) {
+    if (Deno.env.get("MOCK_API") === "true") {
+      return "Mock API enabled! to get message disable \"MOCK_API\"";
+    }
+
     await this.openai.beta.threads.messages.create(
       threadId,
       {
@@ -68,9 +77,9 @@ export class AIController {
   }
 
   public async getResponse(threadId: string): Promise<string> {
-    // if (Deno.env.get("MOCK_API") === "false") {
-    //   return new Promise((resolve) => resolve("Mock API enabled! to get actual responses disable \"MOCK_API\""));
-    // }
+    if (Deno.env.get("MOCK_API") === "true") {
+      return "Mock API enabled! to get actual responses disable \"MOCK_API\"";
+    }
 
     if (!this.assistantId) throw new Error("Invalid Assistant ID (maybe the assistant does not exist try creating one with \"createAssitant\" method)");
 

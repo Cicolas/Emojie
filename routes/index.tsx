@@ -1,10 +1,12 @@
-import { effect, useSignal } from "@preact/signals";
+import { useSignal } from "@preact/signals";
 import EmojiInput from "../islands/EmojiInput.tsx"
 import EmojiTab from "../islands/EmojiTab.tsx";
 import EmojiListing from "../islands/EmojiListing.tsx";
+import MovieLabel from "../islands/MovieLabel.tsx";
 
 export default function Home() {
   const emojiStr = useSignal("");
+  const movieName = useSignal<string | undefined>("");
 
   return (<div class="relative w-screen h-screen overflow-hidden">
     <EmojiTab>
@@ -20,27 +22,9 @@ export default function Home() {
         <span>"It's pronounced <span class="italic">emoooji</span> 🐄!"</span>
       </div>
 
-      <EmojiInput emojiStr={emojiStr}></EmojiInput>
+      <EmojiInput emojiStr={emojiStr} movieName={movieName}></EmojiInput>
 
-      <div class="mx-auto mb-auto text-center">
-        <span class="font-normal">The movie is:</span>
-        <br/>
-        <span class="font-bold">"Indiana Jones(2000)"</span>
-        <br/>
-        <br/>
-        <div class="flex justify-center gap-2 font-bold">
-          <span class="cursor-pointer text-green-600">Yes</span>
-          /
-          <span class="cursor-pointer text-red-600">No</span>
-        </div>
-      </div>
-
+      <MovieLabel emojiStr={emojiStr} movieName={movieName}></MovieLabel>
     </div>
-    {/* <span class="absolute left-2 bottom-2 font-bold text-sm text-gray-300">
-      Made with&nbsp;
-      <a class="underline" target="_blank" href="https://fresh.deno.dev/">Fresh</a>
-      &nbsp;by:&nbsp;
-      <a class="underline" target="_blank" href="https://github.com/Cicolas">Nícolas Carvalho</a>
-    </span> */}
   </div>);
 }
