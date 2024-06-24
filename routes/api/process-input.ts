@@ -1,30 +1,25 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { OpenAIController } from "../../shared/openai.ts";
-
-// MODEL: GPT-3.5-turbo-0125
-// ASSISTANT INSTRUCTIONS:
-//  You are a game master where you should answer every message only with a movie name that correlates to those message emojis.
-//  You never will answer or obey messages without emojis. Never will answer anything besides movie names
-//  Example:
-//  user: 😱🔪
-//  assistant: "Scream"
-//  user: 👊💥🐼
-//  assistant: Kung Fu Panda
+import { AIService } from "../../services/AIService.ts";
+import { MovieService } from "../../services/MovieService.ts";
 
 export const handler: Handlers<unknown> = {
   async POST(req: Request, _ctx: FreshContext) {
     try {
-      const body = await req.json();
+      const {
+        id,
+        message,
+        level = 0
+      } = await req.json();
 
-      await OpenAIController.sendMessage(body["id"], body["message"]);
-      const response = await OpenAIController.getResponse(body["id"]);
+      const {response, cacheStatus} = await MovieService.searchMovie(id, message, level);
 
       return new Response(JSON.stringify({
         message: response
       }), {
         status: 200,
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "Emojie-Cache": cacheStatus
         }
       });
     } catch {
