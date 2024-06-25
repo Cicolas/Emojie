@@ -1,12 +1,10 @@
 import { signal } from "@preact/signals";
 
-const BASE_URL = "http://localhost:8000"
-
 export const thread = signal(null);
 
 export async function getThread(): Promise<string> {
   // try {
-    const resp = await (await fetch(BASE_URL + '/api/register', {
+    const resp = await (await fetch('/api/register', {
       method: "POST",
     })).json();
 
@@ -20,7 +18,7 @@ export async function getThread(): Promise<string> {
 
 export async function sendMessage(message: string, level: number): Promise<string> {
   // try {
-    const resp = await (await fetch(BASE_URL + '/api/process-input',  {
+    const resp = await (await fetch('/api/process-input',  {
       method: 'POST',
       body: JSON.stringify({
         id: thread.value,
