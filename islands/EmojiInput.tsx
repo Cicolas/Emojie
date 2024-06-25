@@ -2,7 +2,7 @@ import emojiRegex from 'emoji-regex';
 import * as _ from "lodash";
 import { Signal } from "@preact/signals";
 import { MdKeyboardReturn } from "react-icons/md";
-import { thread, getThread, sendMessage } from "../signals/ThreadSignal.ts";
+import { Thread } from "../signals/Thread.ts";
 
 interface EmojiInputProps {
   emojiStr: Signal<string>;
@@ -23,9 +23,7 @@ export default function EmojiInput({ emojiStr, movieName }: EmojiInputProps) {
   }
 
   async function handleInput() {
-    if (!thread.value) await getThread();
-
-    const message = await sendMessage(emojiStr.value, 0);
+    const message = await Thread.sendMessage(emojiStr.value, 0);
 
     movieName.value = message;
   }

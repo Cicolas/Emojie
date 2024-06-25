@@ -1,6 +1,6 @@
 import { Signal, effect, useSignalEffect } from "@preact/signals";
 import { useEffect, useState } from "preact/hooks";
-import { thread, getThread, sendMessage } from "../signals/ThreadSignal.ts";
+import { Thread } from "../signals/Thread.ts";
 
 interface MovieLabelProps {
   emojiStr: Signal<string>;
@@ -15,9 +15,8 @@ export default function MovieLabel({ emojiStr, movieName }: MovieLabelProps) {
     if (status === "yes") {
       setFeedback("yes");
     } else {
-      if (!thread.value) await getThread();
+      const message = await Thread.sendMessage(emojiStr.value, tries + 1);
 
-      const message = await sendMessage(emojiStr.value, tries + 1);
       movieName.value = message;
       setTries(tries + 1);
     }
@@ -25,7 +24,11 @@ export default function MovieLabel({ emojiStr, movieName }: MovieLabelProps) {
 
   useEffect(() => {
     setFeedback(undefined);
-  }, [movieName.value])
+  }, [movieName.value]);
+
+  useEffect(() => {
+    setTries(0);
+  }, [emojiStr]);
 
   return (
     <>
