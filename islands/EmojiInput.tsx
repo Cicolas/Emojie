@@ -25,7 +25,7 @@ export default function EmojiInput({ emojiStr, movieName }: EmojiInputProps) {
   async function handleInput() {
     if (!thread.value) await getThread();
 
-    const message = await sendMessage(emojiStr.value);
+    const message = await sendMessage(emojiStr.value, 0);
 
     movieName.value = message;
   }

@@ -9,6 +9,7 @@ interface MovieLabelProps {
 
 export default function MovieLabel({ emojiStr, movieName }: MovieLabelProps) {
   const [feedback, setFeedback] = useState<"yes" | "no" | undefined>(undefined);
+  const [tries, setTries] = useState<number>(0);
 
   async function handleFeedback(status: "yes" | "no") {
     if (status === "yes") {
@@ -16,9 +17,10 @@ export default function MovieLabel({ emojiStr, movieName }: MovieLabelProps) {
     } else {
       if (!thread.value) await getThread();
 
-      const message = await sendMessage(emojiStr.value);
+      const message = await sendMessage(emojiStr.value, tries + 1);
+      movieName.value = message;
+      setTries(tries + 1);
     }
-
   }
 
   useEffect(() => {

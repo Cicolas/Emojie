@@ -18,13 +18,14 @@ export async function getThread(): Promise<string> {
   // }
 }
 
-export async function sendMessage(message: string): Promise<string> {
+export async function sendMessage(message: string, level: number): Promise<string> {
   // try {
     const resp = await (await fetch(BASE_URL + '/api/process-input',  {
       method: 'POST',
       body: JSON.stringify({
         id: thread.value,
-        message
+        message,
+        level
       })
     })).json();
 

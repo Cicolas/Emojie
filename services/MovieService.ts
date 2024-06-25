@@ -7,8 +7,8 @@ type CacheStatusResponse<T> = {
 }
 
 export const MovieService = {
-  searchMovie: async (threadId: string, emoji: string, level: number = 0): Promise<CacheStatusResponse<string>> => {
-    const movie: string | undefined = await MovieRepository.get(emoji);
+  searchMovie: async (threadId: string, emoji: string, level: number): Promise<CacheStatusResponse<string>> => {
+    const movie: string | undefined = await MovieRepository.get(emoji, level);
 
     if (movie) {
       return {
@@ -21,7 +21,7 @@ export const MovieService = {
     const AIResponse = await AIService.getResponse(threadId);
 
     if (AIResponse)
-      MovieRepository.set(emoji, AIResponse);
+      MovieRepository.set(emoji, AIResponse, level);
 
     return {
       response: AIResponse,

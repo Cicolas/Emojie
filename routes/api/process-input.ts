@@ -8,8 +8,14 @@ export const handler: Handlers<unknown> = {
       const {
         id,
         message,
-        level = 0
+        level
       } = await req.json();
+
+      if (message.length < 1)
+        throw new Error("message should be at least 1 emoji");
+
+      if (message.length > 10)
+        throw new Error("message should be less than 10 emojis");
 
       const {response, cacheStatus} = await MovieService.searchMovie(id, message, level);
 
