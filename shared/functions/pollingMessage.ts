@@ -19,9 +19,6 @@ export async function pollingMessage({openai, threadId, runId, interval, maxTrie
     runId
   );
 
-  if (Deno.env.get("LOG_LEVEL") === "ALL")
-    console.log(`INFO:`, runOngoing);
-
   if (
     runOngoing.status === "in_progress" ||
     runOngoing.status === "queued" &&

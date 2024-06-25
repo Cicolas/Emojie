@@ -1,5 +1,4 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { AIService } from "../../services/AIService.ts";
 import { MovieService } from "../../services/MovieService.ts";
 
 export const handler: Handlers<unknown> = {
@@ -28,9 +27,9 @@ export const handler: Handlers<unknown> = {
           "Emojie-Cache": cacheStatus
         }
       });
-    } catch {
+    } catch(err) {
       return new Response(JSON.stringify({
-        message: "Invalid body"
+        message: "Error: " + err
       }), {
         status: 400,
         headers: {
