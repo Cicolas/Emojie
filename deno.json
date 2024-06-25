@@ -38,7 +38,7 @@
     "if-emoji": "npm:if-emoji",
     "openai": "https://deno.land/x/openai@v4.28.0/mod.ts",
     "openai/": "https://deno.land/x/openai@v4.28.0/",
-    "redis": "npm:redis@^4.5"
+    "redis": "https://deno.land/x/redis@v0.32.3/mod.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

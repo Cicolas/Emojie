@@ -1,7 +1,7 @@
-import { createClient } from "redis";
+import { connect } from 'redis';
 
-export const redisClient = createClient({
-  url: "redis://127.0.0.1:6379",
+export const redisClient = await connect({
+  hostname: Deno.env.get("REDIS_URL"),
+  port: Deno.env.get("REDIS_PORT"),
+  password: Deno.env.get("REDIS_PASSWORD"),
 });
-
-await redisClient.connect();
