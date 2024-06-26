@@ -1,5 +1,5 @@
 import { redisClient } from "../lib/redis.ts"
-import { BinaryConverter } from "../shared/functions/binaryConversion.ts"
+import { BinaryConverter } from "../shared/functions/binaryConverter.ts"
 
 export const MovieRepository = {
   set: async (emoji: string, name: string, level: number) => {

@@ -6,32 +6,39 @@ export const Thread = await (async () => {
 
   const fetchThread = async (): Promise<string> => {
     try {
-      const resp = await (await fetch('/api/register', {
+      const resp = await fetch('/api/register', {
         method: "POST",
-      })).json();
+      });
 
-      thread.value = resp.id;
+      if (resp.status !== 200) throw new Error("could not get openAI thread!");
 
-      return resp.id;
-    } catch {
-      throw new Error("could not get openAI thread!");
+      const json = await resp.json();
+      thread.value = json.id;
+
+      return json.id;
+    } catch (err) {
+      throw new Error(err);
     }
   };
 
   const sendMessage = async (message: string, level: number): Promise<string> => {
     try {
-      const resp = await (await fetch('/api/process-input',  {
+      const resp = await fetch('/api/process-input',  {
         method: 'POST',
         body: JSON.stringify({
           id: thread.value,
           message,
           level
         })
-      })).json();
+      });
 
-      return resp.message;
-    } catch {
-      throw new Error("could not process the input!");
+      if (resp.status !== 200) throw new Error("could not proccess the input!");
+
+      const json = await resp.json();
+
+      return json.message;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 

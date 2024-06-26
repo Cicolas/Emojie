@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { Signal } from "@preact/signals";
 import { MdKeyboardReturn } from "react-icons/md";
 import { Thread } from "../signals/Thread.ts";
+import { ToastController } from "../shared/events/toast.ts";
 
 interface EmojiInputProps {
   emojiStr: Signal<string>;
@@ -23,9 +24,13 @@ export default function EmojiInput({ emojiStr, movieName }: EmojiInputProps) {
   }
 
   async function handleInput() {
-    const message = await Thread.sendMessage(emojiStr.value, 0);
+    try {
+      const message = await Thread.sendMessage(emojiStr.value, 0);
 
-    movieName.value = message;
+      movieName.value = message;
+    } catch (err) {
+      ToastController.error(err);
+    }
   }
 
   return <div class="

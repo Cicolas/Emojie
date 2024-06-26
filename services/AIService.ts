@@ -1,6 +1,4 @@
 import { openai } from "../lib/openai.ts";
-import { redisClient } from "../lib/redis.ts";
-import { BinaryConverter } from "../shared/functions/binaryConversion.ts";
 import { pollingMessage } from "../shared/functions/pollingMessage.ts";
 
 const MAX_TRIES = 5;

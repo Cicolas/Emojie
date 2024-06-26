@@ -1,6 +1,7 @@
 import { Signal, effect, useSignalEffect } from "@preact/signals";
 import { useEffect, useState } from "preact/hooks";
 import { Thread } from "../signals/Thread.ts";
+import { ToastController } from "../shared/events/toast.ts";
 
 interface MovieLabelProps {
   emojiStr: Signal<string>;
@@ -15,10 +16,14 @@ export default function MovieLabel({ emojiStr, movieName }: MovieLabelProps) {
     if (status === "yes") {
       setFeedback("yes");
     } else {
-      const message = await Thread.sendMessage(emojiStr.value, tries + 1);
+      try {
+        const message = await Thread.sendMessage(emojiStr.value, tries + 1);
 
-      movieName.value = message;
-      setTries(tries + 1);
+        movieName.value = message;
+        setTries(tries + 1);
+      } catch (err) {
+        ToastController.error(err);
+      }
     }
   }
 

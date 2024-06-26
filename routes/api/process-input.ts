@@ -29,7 +29,7 @@ export const handler: Handlers<unknown> = {
       });
     } catch(err) {
       return new Response(JSON.stringify({
-        message: "Error: " + err
+        message: err
       }), {
         status: 400,
         headers: {

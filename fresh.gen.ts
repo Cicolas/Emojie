@@ -11,6 +11,7 @@ import * as $EmojiInput from "./islands/EmojiInput.tsx";
 import * as $EmojiListing from "./islands/EmojiListing.tsx";
 import * as $EmojiTab from "./islands/EmojiTab.tsx";
 import * as $MovieLabel from "./islands/MovieLabel.tsx";
+import * as $Toast from "./islands/Toast.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -26,6 +27,7 @@ const manifest = {
     "./islands/EmojiListing.tsx": $EmojiListing,
     "./islands/EmojiTab.tsx": $EmojiTab,
     "./islands/MovieLabel.tsx": $MovieLabel,
+    "./islands/Toast.tsx": $Toast,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
