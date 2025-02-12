@@ -1,4 +1,4 @@
-import { MessageContentText } from "openai/resources/beta/threads/messages/messages.ts";
+import { TextContentBlock } from "openai/resources/beta/threads/messages.ts";
 import OpenAI from "openai/mod.ts";
 
 function wait(ms: number) {
@@ -33,7 +33,7 @@ export async function pollingMessage({openai, threadId, runId, interval, maxTrie
       { limit: 1 }
     );
 
-    return (ts.data[0].content as MessageContentText[])[0].text.value;
+    return (ts.data[0].content as TextContentBlock[])[0].text.value;
   } else {
     throw Error(`unknown status: "${runOngoing.status}" or times tried >= 5 (${maxTries})`);
   }

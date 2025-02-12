@@ -36,8 +36,8 @@
     "react-icons/md": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/mod.ts",
     "react-icons/md/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-md@1.0.9/ico/",
     "if-emoji": "npm:if-emoji",
-    "openai": "https://deno.land/x/openai@v4.28.0/mod.ts",
-    "openai/": "https://deno.land/x/openai@v4.28.0/",
+    "openai": "https://deno.land/x/openai@v4.69.0/mod.ts",
+    "openai/": "https://deno.land/x/openai@v4.69.0/",
     "redis": "https://deno.land/x/redis@v0.32.3/mod.ts"
   },
   "compilerOptions": {
