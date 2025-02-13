@@ -1,16 +1,38 @@
-# Fresh project
+# Emojie
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Emojie is a web app that predicts a movie based on the emojis entered by the user. Built using Fresh.js, Deno, and Redis.
 
-### Usage
+## Technologies Used
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+- **Fresh.js**: A modern web framework for building fast, server-rendered applications.
+- **Deno**: A secure runtime for JavaScript and TypeScript, powering the backend.
+- **Redis**: Used for caching and fast data retrieval.
 
-Then start the project:
+## Installation
 
-```
-deno task start
-```
+To run this project locally, follow these steps:
 
-This will watch the project directory and restart as necessary.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Cicolas/Emojie.git
+   cd Emojie
+   ```
+
+2. install dependencies using Deno:
+   ```bash
+   deno task start
+   ```
+
+
+3. Create .env, following the shape of .env.example
+
+4. Start the application:
+    ```bash
+    deno run --allow-net --allow-env --unstable main.ts
+
+    Open your browser and visit http://localhost:8000 to start predicting movies with emojis!
+    ```
+
+## Usage
+
+    Enter a sequence of emojis that represent the movie you're thinking of, and Emojie will predict the movie for you.
